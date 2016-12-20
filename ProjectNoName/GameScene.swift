@@ -14,7 +14,7 @@ import GameplayKit
 class GameScene: SKScene {
 
     //Global variables
-    var ball: SKShapeNode!
+    var ball: SKNode!
     var foregroundNode: SKNode!
 
     //Not sure what this is tbh lol
@@ -44,24 +44,30 @@ class GameScene: SKScene {
     //Should push our ball up. I think it's not because our ball doesnt have a platform to push off
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
 
-        if (ball.physicsBody?.isDynamic)!{
+        if (ball.physicsBody!.isDynamic){
             return
         }
         ball.physicsBody?.isDynamic = true
-        ball.physicsBody?.applyImpulse(CGVector(dx: 0.0, dy: 20.0))
+        ball.physicsBody?.applyImpulse(CGVector(dx: 0.0, dy: 2.0))
         
     }
     
-    //Player/ball function
-    func createPlayer() -> SKShapeNode {
+    //Player/ball create function
+    func createPlayer() -> SKNode {
         
-        let ball = SKShapeNode(circleOfRadius: 5)
-        ball.strokeColor = SKColor.white
-        ball.physicsBody = SKPhysicsBody(circleOfRadius: 5)
-        ball.fillColor = SKColor.white
-        ball.position = CGPoint(x: size.width * 0.5, y: size.height * 0.8)
+        //creates ball node 
+        let ballNode = SKNode()
+        //physics body so that gravity affects it
+        ballNode.physicsBody = SKPhysicsBody(circleOfRadius: 5)
+        ballNode.physicsBody?.isDynamic = false
+        ballNode.physicsBody?.allowsRotation = false
+        ballNode.position = CGPoint(x: size.width * 0.5, y: size.height * 0.2)
+        //Adds image to the ball
+        let sprite = SKSpriteNode(imageNamed: "whiteCircle")
+        sprite.size = CGSize(width: 10, height: 10)
+        ballNode.addChild(sprite)
         
-        return ball
+        return ballNode
     }
 
 }
