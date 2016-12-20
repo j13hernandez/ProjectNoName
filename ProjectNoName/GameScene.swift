@@ -14,6 +14,7 @@ import GameplayKit
 class GameScene: SKScene {
 
     //Global variables
+    var test = 1
     var ball = SKNode()
     var foregroundNode = SKNode()
 
