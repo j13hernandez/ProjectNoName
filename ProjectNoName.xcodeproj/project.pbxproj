@@ -15,6 +15,7 @@
 		0E68C3331E0382A900C3CD4C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E68C3311E0382A900C3CD4C /* LaunchScreen.storyboard */; };
 		0E68C33E1E0382A900C3CD4C /* ProjectNoNameTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E68C33D1E0382A900C3CD4C /* ProjectNoNameTests.swift */; };
 		0E68C3491E0382AA00C3CD4C /* ProjectNoNameUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E68C3481E0382AA00C3CD4C /* ProjectNoNameUITests.swift */; };
+		0EF569DE1E08E1C200E380C7 /* whiteCircle.png in Resources */ = {isa = PBXBuildFile; fileRef = 0EF569DD1E08E1C200E380C7 /* whiteCircle.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +50,7 @@
 		0E68C3441E0382AA00C3CD4C /* ProjectNoNameUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ProjectNoNameUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0E68C3481E0382AA00C3CD4C /* ProjectNoNameUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectNoNameUITests.swift; sourceTree = "<group>"; };
 		0E68C34A1E0382AA00C3CD4C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0EF569DD1E08E1C200E380C7 /* whiteCircle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = whiteCircle.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +101,7 @@
 		0E68C3211E0382A900C3CD4C /* ProjectNoName */ = {
 			isa = PBXGroup;
 			children = (
+				0EF569DD1E08E1C200E380C7 /* whiteCircle.png */,
 				0E68C3221E0382A900C3CD4C /* AppDelegate.swift */,
 				0E68C3281E0382A900C3CD4C /* GameScene.swift */,
 				0E68C32A1E0382A900C3CD4C /* GameViewController.swift */,
@@ -237,6 +240,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0E68C32E1E0382A900C3CD4C /* Main.storyboard in Resources */,
+				0EF569DE1E08E1C200E380C7 /* whiteCircle.png in Resources */,
 				0E68C3301E0382A900C3CD4C /* Assets.xcassets in Resources */,
 				0E68C3331E0382A900C3CD4C /* LaunchScreen.storyboard in Resources */,
 			);
@@ -512,6 +516,7 @@
 				0E68C34F1E0382AA00C3CD4C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		0E68C3501E0382AA00C3CD4C /* Build configuration list for PBXNativeTarget "ProjectNoNameTests" */ = {
 			isa = XCConfigurationList;
@@ -520,6 +525,7 @@
 				0E68C3521E0382AA00C3CD4C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		0E68C3531E0382AA00C3CD4C /* Build configuration list for PBXNativeTarget "ProjectNoNameUITests" */ = {
 			isa = XCConfigurationList;
@@ -528,6 +534,7 @@
 				0E68C3551E0382AA00C3CD4C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
