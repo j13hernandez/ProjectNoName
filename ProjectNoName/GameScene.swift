@@ -23,7 +23,7 @@ class GameScene: SKScene {
         super.init(coder: aDecoder)
     }
     
-    //Esentially out main() function
+    //Esentially our main() function
     override init(size: CGSize){
         
         super.init(size: size)
@@ -55,7 +55,7 @@ class GameScene: SKScene {
     //Player/ball create function
     func createPlayer() -> SKNode {
         
-        //creates ball node 
+        //creates ball node
         let ballNode = SKNode()
         //physics body so that gravity affects it
         ballNode.physicsBody = SKPhysicsBody(circleOfRadius: 5)
