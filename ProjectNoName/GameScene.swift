@@ -16,7 +16,6 @@ class GameScene: SKScene {
     //Global variables
     var ball = SKNode()
     var foregroundNode = SKNode()
-    
 
     //Not sure what this is tbh lol
     required init?(coder aDecoder: NSCoder) {
@@ -42,7 +41,7 @@ class GameScene: SKScene {
     }
     
 
-    //Should push our ball up. I think it's not because our ball doesnt have a platform to push off
+    //When User touches screen, pushes player up
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
 
         if (ball.physicsBody!.isDynamic){
