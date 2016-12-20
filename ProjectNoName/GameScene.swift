@@ -16,6 +16,7 @@ class GameScene: SKScene {
     //Global variables
     var ball = SKNode()
     var foregroundNode = SKNode()
+    
 
     //Not sure what this is tbh lol
     required init?(coder aDecoder: NSCoder) {
