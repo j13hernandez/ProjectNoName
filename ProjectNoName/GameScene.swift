@@ -49,7 +49,7 @@ class GameScene: SKScene {
             return
         }
         ball.physicsBody?.isDynamic = true
-        ball.physicsBody?.applyImpulse(CGVector(dx: 0.2, dy: 1.0))
+        ball.physicsBody?.applyImpulse(CGVector(dx: -0.2, dy: 1.0))
         
     }
     
