@@ -9,6 +9,17 @@
 import UIKit
 import SpriteKit
 
+struct CollisionCategoryBitMask {
+    
+    static let Person = 0x1 << 1
+    static let Platform = 0x1 << 2
+}
+
+enum PlatfromType: Int {
+    case Normal = 0
+    case Break
+}
+
 class GameObjectNode: SKNode {
     
     func collisionWithPlayer(player: SKNode) -> Bool{
@@ -21,4 +32,18 @@ class GameObjectNode: SKNode {
             self.removeFromParent()
         }
     }
+}
+
+class PlatfromNode: GameObjectNode {
+    
+    var platfromType: PlatfromType!
+    
+    override func collisionWithPlayer(player: SKNode) -> Bool {
+        
+        if (player.physicsBody?.velocity.dy)! < CGFloat(0) {
+            player.physicsBody?.velocity = CGVector(dx: player.physicsBody!.velocity.dx, dy: 250.0)
+        }
+        return false
+    }
+    
 }
