@@ -10,7 +10,6 @@ import SpriteKit
 import GameplayKit
 
 //Feel free to change varible names to more conventional ones - Jay Palm
-
 class GameScene: SKScene, SKPhysicsContactDelegate {
 
     //Global variables
@@ -18,19 +17,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var foregroundNode = SKNode()
 
     //Not sure what this is tbh lol
-    required init?(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder)
+    {
         
         super.init(coder: aDecoder)
     }
     
     //Esentially our main() function
-    override init(size: CGSize){
+    override init(size: CGSize)
+    {
         
         super.init(size: size)
         //Gravity for our universe
+
         physicsWorld.gravity = CGVector(dx: 0.0, dy: -2.0)
         //Set Contact Delegate
-        physicsWorld.contactDelegate = self
+        physicsWorld.contactDelegate = self    
+
         backgroundColor = SKColor.black
         //Add Moving Layer
         foregroundNode = SKNode()
@@ -44,19 +47,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
 
-    //When User touches screen, pushes player up
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    //When User touches screen for the first time, pushes player up
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?)
+    {
 
         if (ball.physicsBody!.isDynamic){
             return
         }
         ball.physicsBody?.isDynamic = true
-        ball.physicsBody?.applyImpulse(CGVector(dx: 0.0, dy: 2.0))
+        ball.physicsBody?.applyImpulse(CGVector(dx: -0.2, dy: 1.0))
         
     }
     
     //Player/ball create function
-    func createPlayer() -> SKNode {
+    func createPlayer() -> SKNode
+    {
         
         //creates ball node
         let ballNode = SKNode()
