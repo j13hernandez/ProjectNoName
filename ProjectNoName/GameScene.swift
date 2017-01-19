@@ -16,6 +16,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     //Global variables
     var ball = SKNode()
     var foregroundNode = SKNode()
+    var touch = Bool()
+    var joint = SKPhysicsJointFixed()
 
     //Not sure what this is tbh lol
     required init?(coder aDecoder: NSCoder) {
@@ -47,12 +49,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     //When User touches screen, pushes player up
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
 
-        if (ball.physicsBody!.isDynamic){
-            return
-        }
+        
         ball.physicsBody?.isDynamic = true
         ball.physicsBody?.applyImpulse(CGVector(dx: 0.0, dy: 2.0))
-        
+        if touch == true{
+            scene?.physicsWorld.remove(joint)
+        }
     }
     
     //Player/ball create function
@@ -63,7 +65,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //physics body so that gravity affects it
         ballNode.physicsBody = SKPhysicsBody(circleOfRadius: 5)
         ballNode.physicsBody?.isDynamic = false
-        ballNode.position = CGPoint(x: size.width * 0.5, y: size.height * 0.2)
+        ballNode.position = CGPoint(x: size.width * 0.5, y: size.height * 0.3)
         //physics to add collision detection
         ballNode.physicsBody?.usesPreciseCollisionDetection = true
         ballNode.physicsBody?.categoryBitMask = UInt32(CollisionCategoryBitMask.Person)
@@ -107,16 +109,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     //function to attach nodes on contact
     func joinPhysicsBodies(bodyA:SKPhysicsBody, bodyB:SKPhysicsBody, point:CGPoint) {
-        let joint = SKPhysicsJointFixed.joint(withBodyA: bodyA, bodyB: bodyB, anchor: point)
+        joint = SKPhysicsJointFixed.joint(withBodyA: bodyA, bodyB: bodyB, anchor: point)
         self.physicsWorld.add(joint)
+        
     }
-    
     
     //Attaches ball to platfrom on contact
     func didBegin(_ contact: SKPhysicsContact) {
         
         let nodeA = contact.bodyA
         let nodeB = contact.bodyB
+        touch = true
         
         if nodeA.categoryBitMask == UInt32(CollisionCategoryBitMask.Person) && nodeB.categoryBitMask == UInt32(CollisionCategoryBitMask.Platform){
             self.joinPhysicsBodies(bodyA: nodeA, bodyB: nodeB, point:contact.contactPoint)
