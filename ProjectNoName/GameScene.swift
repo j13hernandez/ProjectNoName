@@ -68,9 +68,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 //let type = PlatformType(rawValue: (platformPoint["type"]! as AnyObject).integerValue)
                 //let positionX = CGFloat(x! + patternX!)
                 //let positionY = CGFloat(y! + patternY!)
-                let platformNode = createPlatform(position: CGPoint(x: positionX, y: positionY), ofType: type!)
+                let platformNode = createPlatform(position: CGPoint(x: CGFloat(patternX!), y: CGFloat(patternY!)), ofType: .Normal)
                 foregroundNode.addChild(platformNode)
-            }
+            
         }
         //Add Player
         ball = createPlayer()
