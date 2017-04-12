@@ -10,7 +10,6 @@ import SpriteKit
 import GameplayKit
 
 //Feel free to change varible names to more conventional ones - Jay Palm
-
 class GameScene: SKScene, SKPhysicsContactDelegate {
 
     //Global variables
@@ -22,7 +21,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var endLvlY = 0
     
     //Not sure what this is tbh lol
-    required init?(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder)
+    {
         
         super.init(coder: aDecoder)
         
@@ -30,7 +30,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     //Esentially our main() function
-    override init(size: CGSize){
+    override init(size: CGSize)
+    {
         
         // Load the level
         let lvlPlist = Bundle.main.path(forResource: "Level01", ofType: "plist")
@@ -41,9 +42,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         super.init(size: size)
         //Gravity for our universe
+
         //physicsWorld.gravity = CGVector(dx: 0.0, dy: -2.0)
+
+
         //Set Contact Delegate
-        physicsWorld.contactDelegate = self
+        physicsWorld.contactDelegate = self    
+
         backgroundColor = SKColor.black
         //Add Moving Layer
         foregroundNode = SKNode()
@@ -80,6 +85,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
 
+
     //When User touches screen, pushes player up
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
@@ -88,12 +94,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         border.friction = 0
         self.physicsBody = border
 
+
         var r = CGFloat()
         r = 5.0
         ball.physicsBody?.isDynamic = true
+
         //ball.physicsBody?.applyForce(impulseVector)
         //ball.physicsBody?.applyImpulse(impulseVector)
         
+
         
         ball.physicsBody?.applyImpulse(CGVector(dx: r * cos(((ball.zRotation / 0.0174532925) + 90) * 0.0174532925), dy: r * sin(((ball.zRotation / 0.0174532925) + 90) * 0.0174532925)))
         if touch == true{
@@ -102,7 +111,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     //Player/ball create function
-    func createPlayer() -> SKNode {
+    func createPlayer() -> SKNode
+    {
         
         //creates ball node
         let ballNode = SKNode()
