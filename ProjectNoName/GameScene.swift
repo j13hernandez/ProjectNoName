@@ -53,21 +53,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         foregroundNode.addChild(platformMain)
         //Additional PLatforms
         let platform = lvlData["Platforms"] as! NSDictionary
-        let platformPatterns = platform["Patterns"] as! NSDictionary
+        //let platformPatterns = platform["Patterns"] as! NSDictionary
         let platformPositions = platform["Positions"] as! [NSDictionary]
         
         for platformPosition in platformPositions{
             let patternX = (platformPosition["x"] as AnyObject).floatValue
             let patternY = (platformPosition["y"] as AnyObject).floatValue
-            let pattern = platformPosition["pattern"] as! NSString
+            //let pattern = platformPosition["pattern"] as! NSString
             
-            let platformPattern = platformPatterns[pattern] as! [NSDictionary]
-            for platformPoint in platformPattern {
-                let x = (platformPoint["x"] as AnyObject).floatValue
-                let y = (platformPoint["y"] as AnyObject).floatValue
-                let type = PlatformType(rawValue: (platformPoint["type"]! as AnyObject).integerValue)
-                let positionX = CGFloat(x! + patternX!)
-                let positionY = CGFloat(y! + patternY!)
+            //let platformPattern = platformPatterns[pattern] as! [NSDictionary]
+            //for platformPoint in platformPosition {
+                //let x = (platformPoint["x"] as AnyObject).floatValue
+                //let y = (platformPoint["y"] as AnyObject).floatValue
+                //let type = PlatformType(rawValue: (platformPoint["type"]! as AnyObject).integerValue)
+                //let positionX = CGFloat(x! + patternX!)
+                //let positionY = CGFloat(y! + patternY!)
                 let platformNode = createPlatform(position: CGPoint(x: positionX, y: positionY), ofType: type!)
                 foregroundNode.addChild(platformNode)
             }
