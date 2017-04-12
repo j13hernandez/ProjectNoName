@@ -13,9 +13,10 @@ struct CollisionCategoryBitMask {
     
     static let Person = 0x1 << 1
     static let Platform = 0x1 << 2
+    static let Border = 0x1 << 3
 }
 
-enum PlatfromType: Int {
+enum PlatformType: Int {
     case Normal = 0
     case Break
 }
@@ -36,7 +37,7 @@ class GameObjectNode: SKNode {
 
 class PlatfromNode: GameObjectNode {
     
-    var platfromType: PlatfromType!
+    var platfromType: PlatformType!
     
     override func collisionWithPlayer(player: SKNode) -> Bool {
         
