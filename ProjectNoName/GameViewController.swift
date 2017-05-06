@@ -8,18 +8,29 @@
 
 import UIKit
 import SpriteKit
-import GameplayKit
 
 class GameViewController: UIViewController {
+    var scene: GameScene!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        let scene = GameScene(size: view.bounds.size)
+        
+        // Configure the view
         let skView = view as! SKView
-        skView.isMultipleTouchEnabled = false;
+        skView.isMultipleTouchEnabled = false
+        
+        // Create and configure the scene
+        scene = GameScene(size: skView.bounds.size)
+        scene.scaleMode = .aspectFill
+        
+        /*
         skView.showsFPS = true
         skView.showsNodeCount = true
         skView.ignoresSiblingOrder = true
         scene.scaleMode = .resizeFill
+        */
+        
+        //present scene
         skView.presentScene(scene)
     }
     
