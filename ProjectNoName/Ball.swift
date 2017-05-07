@@ -24,14 +24,12 @@ class Ball: SKSpriteNode
     func loadPhysicsBodyWithSize(size: CGSize)
     {
         physicsBody = SKPhysicsBody(circleOfRadius: 5)
-        physicsBody?.allowsRotation = false
+        physicsBody?.node?.name = "ball"
         physicsBody?.isDynamic = true
-                
-        //physics to add collision detection
         physicsBody?.usesPreciseCollisionDetection = true
-        physicsBody?.categoryBitMask = UInt32(CollisionCategoryBitMask.Ball)
-        physicsBody?.collisionBitMask = UInt32(CollisionCategoryBitMask.Platform)
-        physicsBody?.contactTestBitMask = UInt32(CollisionCategoryBitMask.Platform)
+        physicsBody?.categoryBitMask = CollisionCategoryBitMask.Ball
+        physicsBody?.contactTestBitMask = CollisionCategoryBitMask.Platform
+        physicsBody?.collisionBitMask = 0
     }
 
     

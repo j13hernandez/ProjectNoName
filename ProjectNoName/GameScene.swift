@@ -24,6 +24,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         
         //Set Contact Delegate
         physicsWorld.contactDelegate = self
+        physicsWorld.gravity = CGVector(dx: CGFloat(0), dy: CGFloat(0))
         
         addBorder()
         addStartingPlatform()
@@ -42,8 +43,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     func addBorder()
     {
         border = SKPhysicsBody(edgeLoopFrom: self.frame)
-        border.collisionBitMask = UInt32(CollisionCategoryBitMask.Border)
-        border.friction = 0
+        border.node?.name = "border"
+        border.categoryBitMask = CollisionCategoryBitMask.Border
+        border.contactTestBitMask = CollisionCategoryBitMask.Ball
+        border.collisionBitMask = 0
         self.physicsBody = border
     }
     func addStartingPlatform()
@@ -70,17 +73,28 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     func addBall()
     {
         ball = Ball()
-        ball.position = CGPoint(x: size.width / 2, y: size.height * 0.3)
+        ball.position = CGPoint(x: size.width / 2, y: size.height * 0.23)
         addChild(ball)
+        let dir = CGVector(dx: 0, dy: -1)
+        ball.physicsBody?.applyImpulse(dir)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?)
     {
         scene?.physicsWorld.remove(joint)
         
-        let dx: CGFloat = ball.position.x - (currentPlatform?.position.x)!
-        let dy: CGFloat = ball.position.y - (currentPlatform?.position.y)!
-        let dir = CGVector(dx: dx/10, dy: dy/10)
+        // Calculate vector components x and y
+        var dx: CGFloat = ball.position.x - (currentPlatform?.position.x)!
+        var dy: CGFloat = ball.position.y - (currentPlatform?.position.y)!
+        
+        // Normalize the components
+        let magnitude = sqrt(dx*dx+dy*dy)
+        dx /= magnitude
+        dy /= magnitude
+        
+        let strength: CGFloat = 2.5
+        
+        let dir = CGVector(dx: dx * strength, dy: dy * strength)
         
         ball.physicsBody?.applyImpulse(dir)
     }
@@ -92,21 +106,34 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         self.physicsWorld.add(joint)
     }
     
-    //Attaches ball to platfrom on contact
+    //contact between two PhysicsBodys occurred
     func didBegin(_ contact: SKPhysicsContact)
     {
-        let nodeA = contact.bodyA
-        let nodeB = contact.bodyB
+        let nodeA = contact.bodyA.categoryBitMask
+        //nodeB is always ball
         
-        if nodeA.categoryBitMask == UInt32(CollisionCategoryBitMask.Platform) &&
-           nodeB.categoryBitMask == UInt32(CollisionCategoryBitMask.Ball)
+        
+        if nodeA == CollisionCategoryBitMask.Border
         {
-            if currentPlatform != nodeA {
-                self.joinPhysicsBodies(bodyA: nodeA, bodyB: nodeB, point:contact.contactPoint)
-                currentPlatform = nodeA.node
+            restart()
+        }
+        
+        //one of the nodes is a platform
+        if nodeA == CollisionCategoryBitMask.Platform
+        {
+            if currentPlatform != contact.bodyA
+            {
+                self.joinPhysicsBodies(bodyA: contact.bodyA, bodyB: contact.bodyB, point:contact.contactPoint)
+                currentPlatform = contact.bodyA.node
                 let scoreLabel = childNode(withName: "scoreLabel") as! ScoreLabel
                 scoreLabel.increment()
             }
         }
+    }
+    
+    func restart() {
+        let newScene = GameScene(size: view!.bounds.size)
+        newScene.scaleMode = .aspectFill
+        view!.presentScene(newScene)
     }
 }

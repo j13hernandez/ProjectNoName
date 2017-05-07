@@ -119,9 +119,9 @@
 			children = (
 				8BF0288B1EBC1604009AEE9F /* images */,
 				0E5C0B1C1E7729090003DF40 /* Level01.plist */,
+				0E34E8F31E08EDD800209919 /* GameObjectNode.swift */,
 				0E68C3221E0382A900C3CD4C /* AppDelegate.swift */,
 				0E68C3281E0382A900C3CD4C /* GameScene.swift */,
-				0E34E8F31E08EDD800209919 /* GameObjectNode.swift */,
 				0E68C32A1E0382A900C3CD4C /* GameViewController.swift */,
 				8BF0289B1EBECDAA009AEE9F /* Objects */,
 				0E68C32C1E0382A900C3CD4C /* Main.storyboard */,
@@ -153,9 +153,9 @@
 		8BF0288B1EBC1604009AEE9F /* images */ = {
 			isa = PBXGroup;
 			children = (
-				8BF0288C1EBC1643009AEE9F /* platform2.png */,
 				0EF569DD1E08E1C200E380C7 /* whiteCircle.png */,
 				0E34E8F51E0A1E5200209919 /* platform1.png */,
+				8BF0288C1EBC1643009AEE9F /* platform2.png */,
 			);
 			name = images;
 			sourceTree = "<group>";
