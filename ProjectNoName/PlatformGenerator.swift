@@ -18,7 +18,7 @@ class PlatformGenerator: SKSpriteNode
         let platform = Platform()
         
         let w: UInt32 = UInt32(size.width)
-        let padding: UInt32 = 70 //35 pixels on each side
+        let padding: UInt32 = 50 //25 pixels on each side
         let randRange: UInt32 = w-padding
         let rand = arc4random_uniform(randRange)
         

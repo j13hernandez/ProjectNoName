@@ -14,27 +14,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     //member variables
     var platformGenerator: PlatformGenerator!
     var ball: Ball!
+    var currentPlatform: SKNode?
+    var border: SKPhysicsBody!
     var joint = SKPhysicsJointFixed()
-    var impulseVector = CGVector()
-    //var endLvlY = 0
     
     override func didMove(to view: SKView)
     {
         backgroundColor = SKColor.lightGray
         
-        // Load the level
-        //let lvlPlist = Bundle.main.path(forResource: "Level01", ofType: "plist")
-        //let lvlData = NSDictionary(contentsOfFile: lvlPlist!)!
-        
-        // Height at which the player ends the level
-        //endLvlY = (lvlData["EndY"]! as AnyObject).integerValue!
-        
         //Set Contact Delegate
         physicsWorld.contactDelegate = self
         
+        addBorder()
         addStartingPlatform()
-        
         addPlatformGenerator()
+        addScoreLabel()
         
         //gen 2 rando plats
         for _ in 0..<2
@@ -45,6 +39,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         addBall()
     }
     
+    func addBorder()
+    {
+        border = SKPhysicsBody(edgeLoopFrom: self.frame)
+        border.collisionBitMask = UInt32(CollisionCategoryBitMask.Border)
+        border.friction = 0
+        self.physicsBody = border
+    }
     func addStartingPlatform()
     {
         let platformMain = Platform()
@@ -58,6 +59,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         addChild(platformGenerator)
     }
     
+    func addScoreLabel()
+    {
+        let scoreLabel = ScoreLabel(num: -1) //-1 to account for main platform
+        scoreLabel.position = CGPoint(x: 20.0, y: view!.frame.size.height - 35)
+        scoreLabel.name = "scoreLabel"
+        addChild(scoreLabel)
+    }
+    
     func addBall()
     {
         ball = Ball()
@@ -68,17 +77,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?)
     {
         scene?.physicsWorld.remove(joint)
-
-        let border = SKPhysicsBody(edgeLoopFrom: self.frame)
-        border.collisionBitMask = UInt32(CollisionCategoryBitMask.Border)
-        border.friction = 0
-        self.physicsBody = border
-
-        var r = CGFloat()
-        r = 5.0
         
-        ball.physicsBody?.isDynamic = true
-        ball.physicsBody?.applyImpulse(CGVector(dx: r * cos(((ball.zRotation / 0.0174532925) + 90) * 0.0174532925), dy: r * sin(((ball.zRotation / 0.0174532925) + 90) * 0.0174532925)))
+        let dx: CGFloat = ball.position.x - (currentPlatform?.position.x)!
+        let dy: CGFloat = ball.position.y - (currentPlatform?.position.y)!
+        let dir = CGVector(dx: dx/10, dy: dy/10)
+        
+        ball.physicsBody?.applyImpulse(dir)
     }
     
     //function to attach nodes on contact
@@ -94,18 +98,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         let nodeA = contact.bodyA
         let nodeB = contact.bodyB
         
-        impulseVector = CGVector(dx: contact.contactPoint.x, dy: contact.contactPoint.y)
-        
-        if nodeA.categoryBitMask == UInt32(CollisionCategoryBitMask.Person) &&
-           nodeB.categoryBitMask == UInt32(CollisionCategoryBitMask.Platform)
-        {
-            self.joinPhysicsBodies(bodyA: nodeA, bodyB: nodeB, point:contact.contactPoint)
-        }
-        
         if nodeA.categoryBitMask == UInt32(CollisionCategoryBitMask.Platform) &&
-           nodeB.categoryBitMask == UInt32(CollisionCategoryBitMask.Person)
+           nodeB.categoryBitMask == UInt32(CollisionCategoryBitMask.Ball)
         {
-            self.joinPhysicsBodies(bodyA: nodeA, bodyB: nodeB, point:contact.contactPoint)
+            if currentPlatform != nodeA {
+                self.joinPhysicsBodies(bodyA: nodeA, bodyB: nodeB, point:contact.contactPoint)
+                currentPlatform = nodeA.node
+                let scoreLabel = childNode(withName: "scoreLabel") as! ScoreLabel
+                scoreLabel.increment()
+            }
         }
     }
 }

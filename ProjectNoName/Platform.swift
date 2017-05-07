@@ -18,7 +18,7 @@ class Platform: SKSpriteNode {
         loadPhysicsBody()
         
         //add rotation
-        run(SKAction.repeatForever(SKAction.rotate(byAngle: CGFloat.pi * 2.0, duration: 2)))
+        run(SKAction.repeatForever(SKAction.rotate(byAngle: CGFloat.pi * 0.75, duration: 1)))
     }   
     
     func loadPhysicsBody()
@@ -27,8 +27,8 @@ class Platform: SKSpriteNode {
         physicsBody?.isDynamic = false
         physicsBody?.affectedByGravity = false
         physicsBody?.categoryBitMask = UInt32(CollisionCategoryBitMask.Platform)
-        physicsBody?.contactTestBitMask = UInt32(CollisionCategoryBitMask.Person)
-        physicsBody?.collisionBitMask = UInt32(CollisionCategoryBitMask.Person)
+        //physicsBody?.contactTestBitMask = UInt32(CollisionCategoryBitMask.Person)
+        physicsBody?.collisionBitMask = UInt32(CollisionCategoryBitMask.Ball)
     }
     
     required init?(coder aDecoder: NSCoder)

@@ -23,13 +23,13 @@ class Ball: SKSpriteNode
     
     func loadPhysicsBodyWithSize(size: CGSize)
     {
-        //physics body so that gravity affects it
         physicsBody = SKPhysicsBody(circleOfRadius: 5)
+        physicsBody?.allowsRotation = false
         physicsBody?.isDynamic = true
                 
         //physics to add collision detection
         physicsBody?.usesPreciseCollisionDetection = true
-        physicsBody?.categoryBitMask = UInt32(CollisionCategoryBitMask.Person)
+        physicsBody?.categoryBitMask = UInt32(CollisionCategoryBitMask.Ball)
         physicsBody?.collisionBitMask = UInt32(CollisionCategoryBitMask.Platform)
         physicsBody?.contactTestBitMask = UInt32(CollisionCategoryBitMask.Platform)
     }
