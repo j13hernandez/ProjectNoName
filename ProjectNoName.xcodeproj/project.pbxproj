@@ -23,6 +23,7 @@
 		8BF028921EBD325A009AEE9F /* PlatformGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BF028911EBD325A009AEE9F /* PlatformGenerator.swift */; };
 		8BF028951EBDA820009AEE9F /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8BF028931EBDA820009AEE9F /* LaunchScreen.xib */; };
 		8BF028971EBE7B80009AEE9F /* Ball.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BF028961EBE7B80009AEE9F /* Ball.swift */; };
+		8BF0289A1EBEAD67009AEE9F /* ScoreLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BF028991EBEAD67009AEE9F /* ScoreLabel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,6 +66,7 @@
 		8BF028911EBD325A009AEE9F /* PlatformGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlatformGenerator.swift; sourceTree = "<group>"; };
 		8BF028941EBDA820009AEE9F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		8BF028961EBE7B80009AEE9F /* Ball.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Ball.swift; sourceTree = "<group>"; };
+		8BF028991EBEAD67009AEE9F /* ScoreLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScoreLabel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,16 +119,15 @@
 			children = (
 				8BF0288B1EBC1604009AEE9F /* images */,
 				0E5C0B1C1E7729090003DF40 /* Level01.plist */,
+				0E34E8F31E08EDD800209919 /* GameObjectNode.swift */,
 				0E68C3221E0382A900C3CD4C /* AppDelegate.swift */,
 				0E68C3281E0382A900C3CD4C /* GameScene.swift */,
-				8BF028961EBE7B80009AEE9F /* Ball.swift */,
-				8BF0288E1EBD3208009AEE9F /* Platform Generation */,
 				0E68C32A1E0382A900C3CD4C /* GameViewController.swift */,
+				8BF0289B1EBECDAA009AEE9F /* Objects */,
 				0E68C32C1E0382A900C3CD4C /* Main.storyboard */,
 				0E68C32F1E0382A900C3CD4C /* Assets.xcassets */,
 				8BF028931EBDA820009AEE9F /* LaunchScreen.xib */,
 				0E68C3341E0382A900C3CD4C /* Info.plist */,
-				0E34E8F31E08EDD800209919 /* GameObjectNode.swift */,
 			);
 			path = ProjectNoName;
 			sourceTree = "<group>";
@@ -152,9 +153,9 @@
 		8BF0288B1EBC1604009AEE9F /* images */ = {
 			isa = PBXGroup;
 			children = (
-				8BF0288C1EBC1643009AEE9F /* platform2.png */,
 				0EF569DD1E08E1C200E380C7 /* whiteCircle.png */,
 				0E34E8F51E0A1E5200209919 /* platform1.png */,
+				8BF0288C1EBC1643009AEE9F /* platform2.png */,
 			);
 			name = images;
 			sourceTree = "<group>";
@@ -166,6 +167,24 @@
 				8BF0288F1EBD3238009AEE9F /* Platform.swift */,
 			);
 			name = "Platform Generation";
+			sourceTree = "<group>";
+		};
+		8BF028981EBEAD52009AEE9F /* Labels */ = {
+			isa = PBXGroup;
+			children = (
+				8BF028991EBEAD67009AEE9F /* ScoreLabel.swift */,
+			);
+			name = Labels;
+			sourceTree = "<group>";
+		};
+		8BF0289B1EBECDAA009AEE9F /* Objects */ = {
+			isa = PBXGroup;
+			children = (
+				8BF028961EBE7B80009AEE9F /* Ball.swift */,
+				8BF0288E1EBD3208009AEE9F /* Platform Generation */,
+				8BF028981EBEAD52009AEE9F /* Labels */,
+			);
+			name = Objects;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -308,6 +327,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8BF028901EBD3238009AEE9F /* Platform.swift in Sources */,
+				8BF0289A1EBEAD67009AEE9F /* ScoreLabel.swift in Sources */,
 				0E68C3291E0382A900C3CD4C /* GameScene.swift in Sources */,
 				8BF028921EBD325A009AEE9F /* PlatformGenerator.swift in Sources */,
 				0E68C32B1E0382A900C3CD4C /* GameViewController.swift in Sources */,

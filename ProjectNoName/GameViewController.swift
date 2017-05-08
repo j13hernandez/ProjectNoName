@@ -23,13 +23,6 @@ class GameViewController: UIViewController {
         scene = GameScene(size: skView.bounds.size)
         scene.scaleMode = .aspectFill
         
-        /*
-        skView.showsFPS = true
-        skView.showsNodeCount = true
-        skView.ignoresSiblingOrder = true
-        scene.scaleMode = .resizeFill
-        */
-        
         //present scene
         skView.presentScene(scene)
     }

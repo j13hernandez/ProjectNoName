@@ -14,27 +14,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     //member variables
     var platformGenerator: PlatformGenerator!
     var ball: Ball!
+    var currentPlatform: SKNode?
+    var border: SKPhysicsBody!
     var joint = SKPhysicsJointFixed()
-    var impulseVector = CGVector()
-    //var endLvlY = 0
     
     override func didMove(to view: SKView)
     {
         backgroundColor = SKColor.lightGray
         
-        // Load the level
-        //let lvlPlist = Bundle.main.path(forResource: "Level01", ofType: "plist")
-        //let lvlData = NSDictionary(contentsOfFile: lvlPlist!)!
-        
-        // Height at which the player ends the level
-        //endLvlY = (lvlData["EndY"]! as AnyObject).integerValue!
-        
         //Set Contact Delegate
         physicsWorld.contactDelegate = self
+        physicsWorld.gravity = CGVector(dx: CGFloat(0), dy: CGFloat(0))
         
+        addBorder()
         addStartingPlatform()
-        
         addPlatformGenerator()
+        addScoreLabel()
         
         //gen 2 rando plats
         for _ in 0..<2
@@ -45,6 +40,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         addBall()
     }
     
+    func addBorder()
+    {
+        border = SKPhysicsBody(edgeLoopFrom: self.frame)
+        border.node?.name = "border"
+        border.categoryBitMask = CollisionCategoryBitMask.Border
+        border.contactTestBitMask = CollisionCategoryBitMask.Ball
+        border.collisionBitMask = 0
+        self.physicsBody = border
+    }
     func addStartingPlatform()
     {
         let platformMain = Platform()
@@ -58,27 +62,41 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         addChild(platformGenerator)
     }
     
+    func addScoreLabel()
+    {
+        let scoreLabel = ScoreLabel(num: -1) //-1 to account for main platform
+        scoreLabel.position = CGPoint(x: 20.0, y: view!.frame.size.height - 35)
+        scoreLabel.name = "scoreLabel"
+        addChild(scoreLabel)
+    }
+    
     func addBall()
     {
         ball = Ball()
-        ball.position = CGPoint(x: size.width / 2, y: size.height * 0.3)
+        ball.position = CGPoint(x: size.width / 2, y: size.height * 0.23)
         addChild(ball)
+        let dir = CGVector(dx: 0, dy: -1)
+        ball.physicsBody?.applyImpulse(dir)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?)
     {
         scene?.physicsWorld.remove(joint)
-
-        let border = SKPhysicsBody(edgeLoopFrom: self.frame)
-        border.collisionBitMask = UInt32(CollisionCategoryBitMask.Border)
-        border.friction = 0
-        self.physicsBody = border
-
-        var r = CGFloat()
-        r = 5.0
         
-        ball.physicsBody?.isDynamic = true
-        ball.physicsBody?.applyImpulse(CGVector(dx: r * cos(((ball.zRotation / 0.0174532925) + 90) * 0.0174532925), dy: r * sin(((ball.zRotation / 0.0174532925) + 90) * 0.0174532925)))
+        // Calculate vector components x and y
+        var dx: CGFloat = ball.position.x - (currentPlatform?.position.x)!
+        var dy: CGFloat = ball.position.y - (currentPlatform?.position.y)!
+        
+        // Normalize the components
+        let magnitude = sqrt(dx*dx+dy*dy)
+        dx /= magnitude
+        dy /= magnitude
+        
+        let strength: CGFloat = 2.5
+        
+        let dir = CGVector(dx: dx * strength, dy: dy * strength)
+        
+        ball.physicsBody?.applyImpulse(dir)
     }
     
     //function to attach nodes on contact
@@ -88,24 +106,34 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         self.physicsWorld.add(joint)
     }
     
-    //Attaches ball to platfrom on contact
+    //contact between two PhysicsBodys occurred
     func didBegin(_ contact: SKPhysicsContact)
     {
-        let nodeA = contact.bodyA
-        let nodeB = contact.bodyB
+        let nodeA = contact.bodyA.categoryBitMask
+        //nodeB is always ball
         
-        impulseVector = CGVector(dx: contact.contactPoint.x, dy: contact.contactPoint.y)
         
-        if nodeA.categoryBitMask == UInt32(CollisionCategoryBitMask.Person) &&
-           nodeB.categoryBitMask == UInt32(CollisionCategoryBitMask.Platform)
+        if nodeA == CollisionCategoryBitMask.Border
         {
-            self.joinPhysicsBodies(bodyA: nodeA, bodyB: nodeB, point:contact.contactPoint)
+            restart()
         }
         
-        if nodeA.categoryBitMask == UInt32(CollisionCategoryBitMask.Platform) &&
-           nodeB.categoryBitMask == UInt32(CollisionCategoryBitMask.Person)
+        //one of the nodes is a platform
+        if nodeA == CollisionCategoryBitMask.Platform
         {
-            self.joinPhysicsBodies(bodyA: nodeA, bodyB: nodeB, point:contact.contactPoint)
+            if currentPlatform != contact.bodyA
+            {
+                self.joinPhysicsBodies(bodyA: contact.bodyA, bodyB: contact.bodyB, point:contact.contactPoint)
+                currentPlatform = contact.bodyA.node
+                let scoreLabel = childNode(withName: "scoreLabel") as! ScoreLabel
+                scoreLabel.increment()
+            }
         }
+    }
+    
+    func restart() {
+        let newScene = GameScene(size: view!.bounds.size)
+        newScene.scaleMode = .aspectFill
+        view!.presentScene(newScene)
     }
 }
