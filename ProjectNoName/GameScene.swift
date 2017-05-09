@@ -124,6 +124,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate
             platformGenerator.removeBottomPlatform()
             platformGenerator.generateNextPlatform(movingLong: true, movingLat: true)
         }
+        
+        for platform in platformGenerator.platforms
+        {
+            if platform.position.x < 80 && platform.isMovingRight == false
+            {
+                platform.startMovingLat(toRight: true)
+            }
+            
+            if platform.position.x > size.width - 80 && platform.isMovingRight == true
+            {
+                platform.startMovingLat(toRight: false)
+            }
+        }
     }
     
     func addPhysicsWorld()

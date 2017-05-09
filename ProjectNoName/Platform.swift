@@ -13,6 +13,7 @@ class Platform: SKSpriteNode {
     let PLATFORM_DESCENT_SPEED: CGFloat = 100
     let PLATFORM_LATERAL_SPEED: CGFloat = 55
     
+    var isMovingRight: Bool?
     var moveRight: SKAction!
     var moveLeft: SKAction!
     
@@ -61,11 +62,13 @@ class Platform: SKSpriteNode {
         {
             removeAction(forKey: "moveLeft")
             run(SKAction.repeatForever(moveRight), withKey: "moveRight")
+            isMovingRight = true
         }
         else
         {
             removeAction(forKey: "moveRight")
             run(SKAction.repeatForever(moveLeft), withKey: "moveLeft")
+            isMovingRight = false
         }
     }
     
