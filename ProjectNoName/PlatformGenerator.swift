@@ -44,13 +44,13 @@ class PlatformGenerator: SKSpriteNode
         
         for _ in 0 ..< calcNumOfPlatsPerScreen() - 2
         {
-            generateNextPlatform(moving: false)
+            generateNextPlatform(movingLong: false, movingLat: true)
         }
         
         
     }
     
-    func generateNextPlatform(moving: Bool)
+    func generateNextPlatform(movingLong: Bool, movingLat: Bool)
     {
         let platform = Platform()
         
@@ -67,9 +67,20 @@ class PlatformGenerator: SKSpriteNode
         platforms.append(platform)
         addChild(platform)
                 
-        if moving
+        if movingLong
         {
-            platform.startDescending()
+            platform.startMovingLong()
+        }
+        
+        if movingLat
+        {
+            var bool = true
+            if arc4random_uniform(2) == 0
+            {
+                bool = false
+            }
+
+            platform.startMovingLat(toRight: bool)
         }
     }
     

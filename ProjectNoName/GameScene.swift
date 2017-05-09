@@ -21,6 +21,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     var currentPlatform: SKNode?
     var ball: SKShapeNode!
     var border: SKPhysicsBody!
+    //var platformThreshold: SKPhysicsBody!
     var joint = SKPhysicsJointFixed()
     
     var isStarted = false
@@ -32,6 +33,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         
         addPhysicsWorld()
         addBorder()
+        //addPlatformThreshold()
         addPlatformGenerator()
         platformGenerator.generateStartScreenPlatforms()
         addBall()
@@ -75,8 +77,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     func didBegin(_ contact: SKPhysicsContact)
     {
         let nodeA = contact.bodyA.categoryBitMask
-        //nodeB is always ball
+        let nodeB = contact.bodyB.categoryBitMask
         
+        if nodeA == CollisionCategoryBitMask.PlatformThreshold ||
+            nodeB == CollisionCategoryBitMask.PlatformThreshold
+        {
+            gameOver()
+        }
         
         if nodeA == CollisionCategoryBitMask.Border
         {
@@ -115,7 +122,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         if (bottomPlatform?.position.y)! + ANCHOR_RADIUS < 0
         {
             platformGenerator.removeBottomPlatform()
-            platformGenerator.generateNextPlatform(moving: true)
+            platformGenerator.generateNextPlatform(movingLong: true, movingLat: true)
         }
     }
     
@@ -132,6 +139,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         border.collisionBitMask = 0
         self.physicsBody = border
     }
+    
+    //feel free to junk this function
+    /*func addPlatformThreshold()
+    {
+        let padding = CGFloat(80)
+        let ptSize = CGSize(width: size.width - 2*padding, height: size.height)
+        let ptRect = CGRect(origin: CGPoint(x: size.width/2, y: size.height/2),
+                            size: ptSize)
+        platformThreshold = SKPhysicsBody(edgeLoopFrom: ptRect)
+        platformThreshold.categoryBitMask = CollisionCategoryBitMask.PlatformThreshold
+        platformThreshold.contactTestBitMask = CollisionCategoryBitMask.Platform
+        platformThreshold.collisionBitMask = 0
+    }*/
     
     func addPlatformGenerator()
     {
@@ -221,7 +241,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         
         for platform in platformGenerator.platforms
         {
-            platform.startDescending()
+            platform.startMovingLong()
         }
         
     }

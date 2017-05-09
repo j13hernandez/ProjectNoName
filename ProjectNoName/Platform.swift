@@ -11,6 +11,10 @@ import SpriteKit
 
 class Platform: SKSpriteNode {
     let PLATFORM_DESCENT_SPEED: CGFloat = 100
+    let PLATFORM_LATERAL_SPEED: CGFloat = 55
+    
+    var moveRight: SKAction!
+    var moveLeft: SKAction!
     
     init()
     {
@@ -19,6 +23,7 @@ class Platform: SKSpriteNode {
         
         let rad: CGFloat = texture.size().width/2
         loadPhysicsBodyWithRad(rad)
+        loadLateralMoveActions()
         self.setScale(CGFloat(0.183))
     }
     
@@ -35,12 +40,40 @@ class Platform: SKSpriteNode {
     
     func startRotation()
     {
-        run(SKAction.repeatForever(SKAction.rotate(byAngle: CGFloat.pi * 0.75, duration: 1)))
+        if arc4random_uniform(2) == 0
+        {
+            run(SKAction.repeatForever(SKAction.rotate(byAngle: CGFloat.pi * 0.75, duration: 1)))
+        }
+        else
+        {
+            run(SKAction.repeatForever(SKAction.rotate(byAngle: -CGFloat.pi * 0.75, duration: 1)))
+        }
     }
     
-    func startDescending() {
+    func startMovingLong() {
         let moveDown = SKAction.moveBy(x: 0, y: -PLATFORM_DESCENT_SPEED, duration: 1)
         run(SKAction.repeatForever(moveDown))
+    }
+    
+    func startMovingLat(toRight: Bool)
+    {
+        if toRight
+        {
+            removeAction(forKey: "moveLeft")
+            run(SKAction.repeatForever(moveRight), withKey: "moveRight")
+        }
+        else
+        {
+            removeAction(forKey: "moveRight")
+            run(SKAction.repeatForever(moveLeft), withKey: "moveLeft")
+        }
+    }
+    
+    func loadLateralMoveActions()
+    {
+        moveRight = SKAction.moveBy(x: PLATFORM_LATERAL_SPEED, y: 0, duration: 1)
+        
+        moveLeft = SKAction.moveBy(x: -PLATFORM_LATERAL_SPEED, y:0, duration: 1)
     }
     
     func stopActions() {

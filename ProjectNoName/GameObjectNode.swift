@@ -14,4 +14,5 @@ struct CollisionCategoryBitMask {
     static let Ball: UInt32 = 0x1 << 0
     static let Platform: UInt32 = 0x1 << 1
     static let Border: UInt32 = 0x1 << 2
+    static let PlatformThreshold: UInt32 = 0x1 << 3
 }
