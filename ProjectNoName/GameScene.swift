@@ -11,77 +11,50 @@ import GameplayKit
 
 class GameScene: SKScene, SKPhysicsContactDelegate
 {
+    let BALL_RADIUS: CGFloat = 12.9
+    let BALL_SPEED: CGFloat = 10
+    let ANCHOR_RADIUS: CGFloat = 58
+
     //member variables
+    var ballIsOnPlatform = false
     var platformGenerator: PlatformGenerator!
-    var ball: Ball!
     var currentPlatform: SKNode?
+    var ball: SKShapeNode!
     var border: SKPhysicsBody!
     var joint = SKPhysicsJointFixed()
+    
+    var isStarted = false
+    var isGameOver = false
     
     override func didMove(to view: SKView)
     {
         backgroundColor = SKColor.lightGray
         
-        //Set Contact Delegate
-        physicsWorld.contactDelegate = self
-        physicsWorld.gravity = CGVector(dx: CGFloat(0), dy: CGFloat(0))
-        
+        addPhysicsWorld()
         addBorder()
-        addStartingPlatform()
         addPlatformGenerator()
-        addScoreLabel()
-        
-        //gen 2 rando plats
-        for _ in 0..<2
-        {
-            platformGenerator.generateNextPlatform()
-        }
-        
+        platformGenerator.generateStartScreenPlatforms()
         addBall()
-    }
-    
-    func addBorder()
-    {
-        border = SKPhysicsBody(edgeLoopFrom: self.frame)
-        border.node?.name = "border"
-        border.categoryBitMask = CollisionCategoryBitMask.Border
-        border.contactTestBitMask = CollisionCategoryBitMask.Ball
-        border.collisionBitMask = 0
-        self.physicsBody = border
-    }
-    func addStartingPlatform()
-    {
-        let platformMain = Platform()
-        platformMain.position = CGPoint(x: size.width * 0.5, y: size.height * 0.17)
-        addChild(platformMain)
-    }
-    
-    func addPlatformGenerator()
-    {
-        platformGenerator = PlatformGenerator(color: UIColor.clear, size: view!.frame.size)
-        addChild(platformGenerator)
-    }
-    
-    func addScoreLabel()
-    {
-        let scoreLabel = ScoreLabel(num: -1) //-1 to account for main platform
-        scoreLabel.position = CGPoint(x: 20.0, y: view!.frame.size.height - 35)
-        scoreLabel.name = "scoreLabel"
-        addChild(scoreLabel)
-    }
-    
-    func addBall()
-    {
-        ball = Ball()
-        ball.position = CGPoint(x: size.width / 2, y: size.height * 0.23)
-        addChild(ball)
-        let dir = CGVector(dx: 0, dy: -1)
-        ball.physicsBody?.applyImpulse(dir)
+        addScoreLabels()
+        loadHighscore()
+        addTapToStartLabel()
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?)
     {
+        if isGameOver {
+            restart()
+        } else if !isStarted {
+            start()
+        }
+        
+        if !ballIsOnPlatform
+        {
+            return
+        }
+        
         scene?.physicsWorld.remove(joint)
+        ballIsOnPlatform = false
         
         // Calculate vector components x and y
         var dx: CGFloat = ball.position.x - (currentPlatform?.position.x)!
@@ -92,18 +65,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         dx /= magnitude
         dy /= magnitude
         
-        let strength: CGFloat = 2.5
-        
-        let dir = CGVector(dx: dx * strength, dy: dy * strength)
+        let dir = CGVector(dx: dx * BALL_SPEED, dy: dy * BALL_SPEED)
         
         ball.physicsBody?.applyImpulse(dir)
-    }
-    
-    //function to attach nodes on contact
-    func joinPhysicsBodies(bodyA:SKPhysicsBody, bodyB:SKPhysicsBody, point:CGPoint)
-    {
-        joint = SKPhysicsJointFixed.joint(withBodyA: bodyA, bodyB: bodyB, anchor: point)
-        self.physicsWorld.add(joint)
+        
     }
     
     //contact between two PhysicsBodys occurred
@@ -115,25 +80,204 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         
         if nodeA == CollisionCategoryBitMask.Border
         {
-            restart()
+            gameOver()
         }
         
-        //one of the nodes is a platform
         if nodeA == CollisionCategoryBitMask.Platform
         {
             if currentPlatform != contact.bodyA
             {
-                self.joinPhysicsBodies(bodyA: contact.bodyA, bodyB: contact.bodyB, point:contact.contactPoint)
+                let a = ball.position.x - contact.bodyA.node!.position.x
+                let b = ball.position.y - contact.bodyA.node!.position.y
+                let c = sqrt(a*a+b*b)
+                
+                let magnitude: CGFloat = ANCHOR_RADIUS/c
+                
+                //print("orig: ",(c), " new: ",(sqrt(a*a*magnitude*magnitude+b*b*magnitude*magnitude)))
+                
+                let anchor = CGPoint(x: (contact.bodyA.node?.position.x)! + a*magnitude,
+                                     y: (contact.bodyA.node?.position.y)! + b*magnitude)
+                
+                ball.position = anchor
+                joinPhysicsBodies(bodyA: contact.bodyA, bodyB: contact.bodyB, point:anchor)
                 currentPlatform = contact.bodyA.node
+                ballIsOnPlatform = true
                 let scoreLabel = childNode(withName: "scoreLabel") as! ScoreLabel
                 scoreLabel.increment()
             }
         }
     }
     
-    func restart() {
+    override func update(_ currentTime: TimeInterval)
+    {
+        let bottomPlatform = platformGenerator.platforms.first
+                
+        if (bottomPlatform?.position.y)! + ANCHOR_RADIUS < 0
+        {
+            platformGenerator.removeBottomPlatform()
+            platformGenerator.generateNextPlatform(moving: true)
+        }
+    }
+    
+    func addPhysicsWorld()
+    {
+        physicsWorld.contactDelegate = self
+    }
+    
+    func addBorder()
+    {
+        border = SKPhysicsBody(edgeLoopFrom: self.frame)
+        border.categoryBitMask = CollisionCategoryBitMask.Border
+        border.contactTestBitMask = CollisionCategoryBitMask.Ball
+        border.collisionBitMask = 0
+        self.physicsBody = border
+    }
+    
+    func addPlatformGenerator()
+    {
+        platformGenerator = PlatformGenerator(color: UIColor.clear, size: view!.frame.size)
+        addChild(platformGenerator)
+    }
+    
+    func addBall()
+    {
+        ball = SKShapeNode(circleOfRadius: BALL_RADIUS)
+        ball.fillColor = UIColor.white
+        ball.strokeColor = UIColor.darkGray
+        
+        ball.physicsBody = SKPhysicsBody(circleOfRadius: BALL_RADIUS)
+        ball.physicsBody?.isDynamic = true
+        ball.physicsBody?.usesPreciseCollisionDetection = true
+        ball.physicsBody?.categoryBitMask = CollisionCategoryBitMask.Ball
+        ball.physicsBody?.contactTestBitMask = CollisionCategoryBitMask.Platform
+        ball.physicsBody?.collisionBitMask = 0
+        ball.physicsBody?.affectedByGravity = false
+        
+        let startingPlat: Platform = platformGenerator.platforms[0]
+        
+        let x: CGFloat = size.width / 2
+        let y: CGFloat = startingPlat.position.y + ANCHOR_RADIUS
+        let anchor = CGPoint(x: x, y: y)
+        
+        ball.position = anchor
+        
+        addChild(ball)
+        
+        joinPhysicsBodies(bodyA: ball.physicsBody!, bodyB: startingPlat.physicsBody!, point: anchor)
+        currentPlatform = startingPlat
+        ballIsOnPlatform = true
+
+
+    }
+    
+    func addScoreLabels()
+    {
+        //current score
+        let scoreLabel = ScoreLabel(num: 0)
+        scoreLabel.position = CGPoint(x: 35.0, y: view!.frame.size.height - 35)
+        scoreLabel.name = "scoreLabel"
+        addChild(scoreLabel)
+        
+        //high score
+        let highscoreLabel = ScoreLabel(num: 0)
+        highscoreLabel.name = "highscoreLabel"
+        highscoreLabel.position = CGPoint(x: view!.frame.size.width - 35, y: view!.frame.size.height - 35)
+        addChild(highscoreLabel)
+        
+        let highscoreTextLabel = SKLabelNode(text: "High")
+        highscoreTextLabel.fontColor = UIColor.black
+        highscoreTextLabel.fontSize = 14.0
+        highscoreTextLabel.fontName = "Helvetica"
+        highscoreTextLabel.position = CGPoint(x: 0, y: -20)
+        highscoreLabel.addChild(highscoreTextLabel)
+    }
+    
+    func loadHighscore() {
+        let defaults = UserDefaults.standard
+        
+        let highscoreLabel = childNode(withName: "highscoreLabel") as! ScoreLabel
+        highscoreLabel.setTo(defaults.integer(forKey: "highscore"))
+    }
+
+    func addTapToStartLabel()
+    {
+        let tapToStartLabel = SKLabelNode(text: "Tap to start!")
+        tapToStartLabel.name = "tapToStartLabel"
+        tapToStartLabel.position.x = view!.center.x
+        tapToStartLabel.position.y = view!.center.y + 40
+        tapToStartLabel.fontName = "Helvetica"
+        tapToStartLabel.fontColor = UIColor.white
+        tapToStartLabel.fontSize = 35.0
+        addChild(tapToStartLabel)
+        tapToStartLabel.run(blinkAnimation())
+    }
+    
+    func start()
+    {
+        isStarted = true
+        
+        let tapToStartLabel = childNode(withName: "tapToStartLabel")
+        tapToStartLabel?.removeFromParent()
+        
+        for platform in platformGenerator.platforms
+        {
+            platform.startDescending()
+        }
+        
+    }
+    
+    func restart()
+    {
         let newScene = GameScene(size: view!.bounds.size)
         newScene.scaleMode = .aspectFill
         view!.presentScene(newScene)
     }
+    
+    func gameOver()
+    {
+        isGameOver = true
+        
+        // stop everything
+        for platform in platformGenerator.platforms
+        {
+            platform.stopActions()
+        }
+        
+        // create game over label
+        let gameOverLabel = SKLabelNode(text: "Game Over!")
+        gameOverLabel.fontColor = UIColor.white
+        gameOverLabel.fontName = "Helvetica"
+        gameOverLabel.position.x = view!.center.x
+        gameOverLabel.position.y = view!.center.y + 40
+        gameOverLabel.fontSize = 35.0
+        addChild(gameOverLabel)
+        gameOverLabel.run(blinkAnimation())
+        
+        // save current score label value
+        let scoreLabel = childNode(withName: "scoreLabel") as! ScoreLabel
+        let highscoreLabel = childNode(withName: "highscoreLabel") as! ScoreLabel
+        
+        if highscoreLabel.number < scoreLabel.number {
+            highscoreLabel.setTo(scoreLabel.number)
+            
+            let defaults = UserDefaults.standard
+            defaults.set(highscoreLabel.number, forKey: "highscore")
+        }
+    }
+    
+    func blinkAnimation() -> SKAction {
+        let duration = 0.8
+        let fadeOut = SKAction.fadeAlpha(to: 0.0, duration: duration)
+        let fadeIn = SKAction.fadeAlpha(to: 1.0, duration: duration)
+        let blink = SKAction.sequence([fadeOut, fadeIn])
+        return SKAction.repeatForever(blink)
+    }
+    
+    //function to attach nodes on contact
+    func joinPhysicsBodies(bodyA:SKPhysicsBody, bodyB:SKPhysicsBody, point:CGPoint)
+    {
+        joint = SKPhysicsJointFixed.joint(withBodyA: bodyA, bodyB: bodyB, anchor: point)
+        self.physicsWorld.add(joint)
+    }
+    
 }

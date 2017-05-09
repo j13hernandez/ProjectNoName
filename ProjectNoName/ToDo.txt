@@ -1,6 +1,6 @@
 Feel free to add anything to the list
 
--fix problem: ball attaches to platforms at different distances, not sure the cause
--add scrolling feature
--add end game summary feature
+-add moving platforms?
 -pause button?
+-music?
+-make it look fancier?
