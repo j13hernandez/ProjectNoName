@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		0E34E8F41E08EDD800209919 /* GameObjectNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E34E8F31E08EDD800209919 /* GameObjectNode.swift */; };
 		0E34E8F61E0A1E5200209919 /* platform1.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E34E8F51E0A1E5200209919 /* platform1.png */; };
-		0E5C0B1D1E7729090003DF40 /* Level01.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0E5C0B1C1E7729090003DF40 /* Level01.plist */; };
 		0E68C3231E0382A900C3CD4C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E68C3221E0382A900C3CD4C /* AppDelegate.swift */; };
 		0E68C3291E0382A900C3CD4C /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E68C3281E0382A900C3CD4C /* GameScene.swift */; };
 		0E68C32B1E0382A900C3CD4C /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E68C32A1E0382A900C3CD4C /* GameViewController.swift */; };
@@ -17,13 +16,14 @@
 		0E68C3301E0382A900C3CD4C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0E68C32F1E0382A900C3CD4C /* Assets.xcassets */; };
 		0E68C33E1E0382A900C3CD4C /* ProjectNoNameTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E68C33D1E0382A900C3CD4C /* ProjectNoNameTests.swift */; };
 		0E68C3491E0382AA00C3CD4C /* ProjectNoNameUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E68C3481E0382AA00C3CD4C /* ProjectNoNameUITests.swift */; };
-		0EF569DE1E08E1C200E380C7 /* whiteCircle.png in Resources */ = {isa = PBXBuildFile; fileRef = 0EF569DD1E08E1C200E380C7 /* whiteCircle.png */; };
+		8B626BC51EC0425D00590072 /* platform3.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B626BC41EC0425D00590072 /* platform3.png */; };
+		8BB98F6A1EC26D9000F86FE1 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BB98F691EC26D9000F86FE1 /* Constants.swift */; };
 		8BF0288D1EBC1643009AEE9F /* platform2.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BF0288C1EBC1643009AEE9F /* platform2.png */; };
 		8BF028901EBD3238009AEE9F /* Platform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BF0288F1EBD3238009AEE9F /* Platform.swift */; };
 		8BF028921EBD325A009AEE9F /* PlatformGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BF028911EBD325A009AEE9F /* PlatformGenerator.swift */; };
 		8BF028951EBDA820009AEE9F /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8BF028931EBDA820009AEE9F /* LaunchScreen.xib */; };
-		8BF028971EBE7B80009AEE9F /* Ball.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BF028961EBE7B80009AEE9F /* Ball.swift */; };
 		8BF0289A1EBEAD67009AEE9F /* ScoreLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BF028991EBEAD67009AEE9F /* ScoreLabel.swift */; };
+		8BF0289D1EBF0CBF009AEE9F /* ToDo.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8BF0289C1EBF0CBF009AEE9F /* ToDo.txt */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,7 +46,6 @@
 /* Begin PBXFileReference section */
 		0E34E8F31E08EDD800209919 /* GameObjectNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameObjectNode.swift; sourceTree = "<group>"; };
 		0E34E8F51E0A1E5200209919 /* platform1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = platform1.png; sourceTree = "<group>"; };
-		0E5C0B1C1E7729090003DF40 /* Level01.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Level01.plist; sourceTree = "<group>"; };
 		0E68C31F1E0382A900C3CD4C /* ProjectNoName.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ProjectNoName.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0E68C3221E0382A900C3CD4C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0E68C3281E0382A900C3CD4C /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
@@ -60,13 +59,14 @@
 		0E68C3441E0382AA00C3CD4C /* ProjectNoNameUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ProjectNoNameUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0E68C3481E0382AA00C3CD4C /* ProjectNoNameUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectNoNameUITests.swift; sourceTree = "<group>"; };
 		0E68C34A1E0382AA00C3CD4C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		0EF569DD1E08E1C200E380C7 /* whiteCircle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = whiteCircle.png; sourceTree = "<group>"; };
+		8B626BC41EC0425D00590072 /* platform3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = platform3.png; sourceTree = "<group>"; };
+		8BB98F691EC26D9000F86FE1 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		8BF0288C1EBC1643009AEE9F /* platform2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = platform2.png; sourceTree = "<group>"; };
 		8BF0288F1EBD3238009AEE9F /* Platform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Platform.swift; sourceTree = "<group>"; };
 		8BF028911EBD325A009AEE9F /* PlatformGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlatformGenerator.swift; sourceTree = "<group>"; };
 		8BF028941EBDA820009AEE9F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		8BF028961EBE7B80009AEE9F /* Ball.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Ball.swift; sourceTree = "<group>"; };
 		8BF028991EBEAD67009AEE9F /* ScoreLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScoreLabel.swift; sourceTree = "<group>"; };
+		8BF0289C1EBF0CBF009AEE9F /* ToDo.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ToDo.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,7 +97,7 @@
 		0E68C3161E0382A900C3CD4C = {
 			isa = PBXGroup;
 			children = (
-				0E68C3211E0382A900C3CD4C /* ProjectNoName */,
+				0E68C3211E0382A900C3CD4C /* Whiplash */,
 				0E68C33C1E0382A900C3CD4C /* ProjectNoNameTests */,
 				0E68C3471E0382AA00C3CD4C /* ProjectNoNameUITests */,
 				0E68C3201E0382A900C3CD4C /* Products */,
@@ -114,12 +114,13 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		0E68C3211E0382A900C3CD4C /* ProjectNoName */ = {
+		0E68C3211E0382A900C3CD4C /* Whiplash */ = {
 			isa = PBXGroup;
 			children = (
+				8BF0289C1EBF0CBF009AEE9F /* ToDo.txt */,
 				8BF0288B1EBC1604009AEE9F /* images */,
-				0E5C0B1C1E7729090003DF40 /* Level01.plist */,
 				0E34E8F31E08EDD800209919 /* GameObjectNode.swift */,
+				8BB98F691EC26D9000F86FE1 /* Constants.swift */,
 				0E68C3221E0382A900C3CD4C /* AppDelegate.swift */,
 				0E68C3281E0382A900C3CD4C /* GameScene.swift */,
 				0E68C32A1E0382A900C3CD4C /* GameViewController.swift */,
@@ -129,6 +130,7 @@
 				8BF028931EBDA820009AEE9F /* LaunchScreen.xib */,
 				0E68C3341E0382A900C3CD4C /* Info.plist */,
 			);
+			name = Whiplash;
 			path = ProjectNoName;
 			sourceTree = "<group>";
 		};
@@ -153,9 +155,9 @@
 		8BF0288B1EBC1604009AEE9F /* images */ = {
 			isa = PBXGroup;
 			children = (
-				0EF569DD1E08E1C200E380C7 /* whiteCircle.png */,
 				0E34E8F51E0A1E5200209919 /* platform1.png */,
 				8BF0288C1EBC1643009AEE9F /* platform2.png */,
+				8B626BC41EC0425D00590072 /* platform3.png */,
 			);
 			name = images;
 			sourceTree = "<group>";
@@ -180,7 +182,6 @@
 		8BF0289B1EBECDAA009AEE9F /* Objects */ = {
 			isa = PBXGroup;
 			children = (
-				8BF028961EBE7B80009AEE9F /* Ball.swift */,
 				8BF0288E1EBD3208009AEE9F /* Platform Generation */,
 				8BF028981EBEAD52009AEE9F /* Labels */,
 			);
@@ -255,7 +256,7 @@
 				TargetAttributes = {
 					0E68C31E1E0382A900C3CD4C = {
 						CreatedOnToolsVersion = 8.1;
-						DevelopmentTeam = F8V4848TSM;
+						DevelopmentTeam = WT6AWRDT6Y;
 						ProvisioningStyle = Automatic;
 					};
 					0E68C3381E0382A900C3CD4C = {
@@ -297,9 +298,9 @@
 			files = (
 				0E68C32E1E0382A900C3CD4C /* Main.storyboard in Resources */,
 				0E34E8F61E0A1E5200209919 /* platform1.png in Resources */,
-				0E5C0B1D1E7729090003DF40 /* Level01.plist in Resources */,
-				0EF569DE1E08E1C200E380C7 /* whiteCircle.png in Resources */,
+				8BF0289D1EBF0CBF009AEE9F /* ToDo.txt in Resources */,
 				8BF028951EBDA820009AEE9F /* LaunchScreen.xib in Resources */,
+				8B626BC51EC0425D00590072 /* platform3.png in Resources */,
 				0E68C3301E0382A900C3CD4C /* Assets.xcassets in Resources */,
 				8BF0288D1EBC1643009AEE9F /* platform2.png in Resources */,
 			);
@@ -332,8 +333,8 @@
 				8BF028921EBD325A009AEE9F /* PlatformGenerator.swift in Sources */,
 				0E68C32B1E0382A900C3CD4C /* GameViewController.swift in Sources */,
 				0E34E8F41E08EDD800209919 /* GameObjectNode.swift in Sources */,
-				8BF028971EBE7B80009AEE9F /* Ball.swift in Sources */,
 				0E68C3231E0382A900C3CD4C /* AppDelegate.swift in Sources */,
+				8BB98F6A1EC26D9000F86FE1 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -487,10 +488,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = F8V4848TSM;
+				DEVELOPMENT_TEAM = WT6AWRDT6Y;
 				INFOPLIST_FILE = ProjectNoName/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "Jay-Palm.ProjectNoName";
+				PRODUCT_BUNDLE_IDENTIFIER = Cory.Whiplash;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
@@ -500,10 +501,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = F8V4848TSM;
+				DEVELOPMENT_TEAM = WT6AWRDT6Y;
 				INFOPLIST_FILE = ProjectNoName/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "Jay-Palm.ProjectNoName";
+				PRODUCT_BUNDLE_IDENTIFIER = Cory.Whiplash;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};

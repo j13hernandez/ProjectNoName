@@ -1,0 +1,8 @@
+Feel free to add anything to the list
+
+-give platforms arbitrary spin and lateral movement speeds
+    platform rotation
+    platform lateral speed
+-pause button?
+-music?
+-make it look fancier?
