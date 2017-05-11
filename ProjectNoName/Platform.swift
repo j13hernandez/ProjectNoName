@@ -10,9 +10,6 @@ import Foundation
 import SpriteKit
 
 class Platform: SKSpriteNode {
-    let PLATFORM_DESCENT_SPEED: CGFloat = 100
-    let PLATFORM_LATERAL_SPEED: CGFloat = 55
-    
     var isMovingRight: Bool?
     var moveRight: SKAction!
     var moveLeft: SKAction!
@@ -43,11 +40,11 @@ class Platform: SKSpriteNode {
     {
         if arc4random_uniform(2) == 0
         {
-            run(SKAction.repeatForever(SKAction.rotate(byAngle: CGFloat.pi * 0.75, duration: 1)))
+            run(SKAction.repeatForever(SKAction.rotate(byAngle: PLATFORM_ROTATION_SPEED, duration: 1)))
         }
         else
         {
-            run(SKAction.repeatForever(SKAction.rotate(byAngle: -CGFloat.pi * 0.75, duration: 1)))
+            run(SKAction.repeatForever(SKAction.rotate(byAngle: -PLATFORM_ROTATION_SPEED, duration: 1)))
         }
     }
     

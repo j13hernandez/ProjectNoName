@@ -11,19 +11,15 @@ import GameplayKit
 
 class GameScene: SKScene, SKPhysicsContactDelegate
 {
-    let BALL_RADIUS: CGFloat = 12.9
-    let BALL_SPEED: CGFloat = 10
-    let ANCHOR_RADIUS: CGFloat = 58
-
     //member variables
-    var ballIsOnPlatform = false
     var platformGenerator: PlatformGenerator!
     var currentPlatform: SKNode?
     var ball: SKShapeNode!
     var border: SKPhysicsBody!
-    //var platformThreshold: SKPhysicsBody!
     var joint = SKPhysicsJointFixed()
     
+    var scoreLabel: ScoreLabel!
+    var highScoreLabel: ScoreLabel!
     var isStarted = false
     var isGameOver = false
     
@@ -33,7 +29,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         
         addPhysicsWorld()
         addBorder()
-        //addPlatformThreshold()
         addPlatformGenerator()
         platformGenerator.generateStartScreenPlatforms()
         addBall()
@@ -50,13 +45,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate
             start()
         }
         
-        if !ballIsOnPlatform
+        if currentPlatform == nil
         {
             return
         }
         
         scene?.physicsWorld.remove(joint)
-        ballIsOnPlatform = false
         
         // Calculate vector components x and y
         var dx: CGFloat = ball.position.x - (currentPlatform?.position.x)!
@@ -71,19 +65,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         
         ball.physicsBody?.applyImpulse(dir)
         
+        currentPlatform = nil
+        
     }
     
     //contact between two PhysicsBodys occurred
     func didBegin(_ contact: SKPhysicsContact)
     {
         let nodeA = contact.bodyA.categoryBitMask
-        let nodeB = contact.bodyB.categoryBitMask
-        
-        if nodeA == CollisionCategoryBitMask.PlatformThreshold ||
-            nodeB == CollisionCategoryBitMask.PlatformThreshold
-        {
-            gameOver()
-        }
         
         if nodeA == CollisionCategoryBitMask.Border
         {
@@ -94,21 +83,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         {
             if currentPlatform != contact.bodyA
             {
+                
                 let a = ball.position.x - contact.bodyA.node!.position.x
                 let b = ball.position.y - contact.bodyA.node!.position.y
                 let c = sqrt(a*a+b*b)
                 
                 let magnitude: CGFloat = ANCHOR_RADIUS/c
                 
-                //print("orig: ",(c), " new: ",(sqrt(a*a*magnitude*magnitude+b*b*magnitude*magnitude)))
+                //print("orig dist from center of platform: ",(c), " new: ",(sqrt(a*a*magnitude*magnitude+b*b*magnitude*magnitude)))
                 
                 let anchor = CGPoint(x: (contact.bodyA.node?.position.x)! + a*magnitude,
                                      y: (contact.bodyA.node?.position.y)! + b*magnitude)
-                
                 ball.position = anchor
+                
                 joinPhysicsBodies(bodyA: contact.bodyA, bodyB: contact.bodyB, point:anchor)
                 currentPlatform = contact.bodyA.node
-                ballIsOnPlatform = true
                 let scoreLabel = childNode(withName: "scoreLabel") as! ScoreLabel
                 scoreLabel.increment()
             }
@@ -118,25 +107,33 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     override func update(_ currentTime: TimeInterval)
     {
         let bottomPlatform = platformGenerator.platforms.first
-                
+        
+        //delete and generate new plat
         if (bottomPlatform?.position.y)! + ANCHOR_RADIUS < 0
         {
             platformGenerator.removeBottomPlatform()
             platformGenerator.generateNextPlatform(movingLong: true, movingLat: true)
         }
         
+        //send plat other direction
         for platform in platformGenerator.platforms
         {
-            if platform.position.x < 80 && platform.isMovingRight == false
+            if platform.position.x < BORDER_PLATFORM_PADDING && platform.isMovingRight == false
             {
                 platform.startMovingLat(toRight: true)
             }
             
-            if platform.position.x > size.width - 80 && platform.isMovingRight == true
+            if platform.position.x > size.width - BORDER_PLATFORM_PADDING && platform.isMovingRight == true
             {
                 platform.startMovingLat(toRight: false)
             }
         }
+        
+        if scoreLabel.number % 7 == 0
+        {
+            
+        }
+
     }
     
     func addPhysicsWorld()
@@ -146,25 +143,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     
     func addBorder()
     {
+        //let frame = CGRect(x: 0, y: 0, width: self.frame.size.width + ANCHOR_RADIUS*2, height: self.frame.size.height + ANCHOR_RADIUS*2)
         border = SKPhysicsBody(edgeLoopFrom: self.frame)
         border.categoryBitMask = CollisionCategoryBitMask.Border
         border.contactTestBitMask = CollisionCategoryBitMask.Ball
         border.collisionBitMask = 0
         self.physicsBody = border
     }
-    
-    //feel free to junk this function
-    /*func addPlatformThreshold()
-    {
-        let padding = CGFloat(80)
-        let ptSize = CGSize(width: size.width - 2*padding, height: size.height)
-        let ptRect = CGRect(origin: CGPoint(x: size.width/2, y: size.height/2),
-                            size: ptSize)
-        platformThreshold = SKPhysicsBody(edgeLoopFrom: ptRect)
-        platformThreshold.categoryBitMask = CollisionCategoryBitMask.PlatformThreshold
-        platformThreshold.contactTestBitMask = CollisionCategoryBitMask.Platform
-        platformThreshold.collisionBitMask = 0
-    }*/
     
     func addPlatformGenerator()
     {
@@ -198,7 +183,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         
         joinPhysicsBodies(bodyA: ball.physicsBody!, bodyB: startingPlat.physicsBody!, point: anchor)
         currentPlatform = startingPlat
-        ballIsOnPlatform = true
 
 
     }
@@ -206,30 +190,30 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     func addScoreLabels()
     {
         //current score
-        let scoreLabel = ScoreLabel(num: 0)
+        scoreLabel = ScoreLabel(num: 0)
         scoreLabel.position = CGPoint(x: 35.0, y: view!.frame.size.height - 35)
         scoreLabel.name = "scoreLabel"
         addChild(scoreLabel)
         
         //high score
-        let highscoreLabel = ScoreLabel(num: 0)
-        highscoreLabel.name = "highscoreLabel"
-        highscoreLabel.position = CGPoint(x: view!.frame.size.width - 35, y: view!.frame.size.height - 35)
-        addChild(highscoreLabel)
+        highScoreLabel = ScoreLabel(num: 0)
+        highScoreLabel.name = "highScoreLabel"
+        highScoreLabel.position = CGPoint(x: view!.frame.size.width - 35, y: view!.frame.size.height - 35)
+        addChild(highScoreLabel)
         
         let highscoreTextLabel = SKLabelNode(text: "High")
         highscoreTextLabel.fontColor = UIColor.black
         highscoreTextLabel.fontSize = 14.0
         highscoreTextLabel.fontName = "Helvetica"
         highscoreTextLabel.position = CGPoint(x: 0, y: -20)
-        highscoreLabel.addChild(highscoreTextLabel)
+        highScoreLabel.addChild(highscoreTextLabel)
     }
     
     func loadHighscore() {
         let defaults = UserDefaults.standard
         
-        let highscoreLabel = childNode(withName: "highscoreLabel") as! ScoreLabel
-        highscoreLabel.setTo(defaults.integer(forKey: "highscore"))
+        let highScoreLabel = childNode(withName: "highScoreLabel") as! ScoreLabel
+        highScoreLabel.setTo(defaults.integer(forKey: "highscore"))
     }
 
     func addTapToStartLabel()
@@ -286,15 +270,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         addChild(gameOverLabel)
         gameOverLabel.run(blinkAnimation())
         
-        // save current score label value
-        let scoreLabel = childNode(withName: "scoreLabel") as! ScoreLabel
-        let highscoreLabel = childNode(withName: "highscoreLabel") as! ScoreLabel
-        
-        if highscoreLabel.number < scoreLabel.number {
-            highscoreLabel.setTo(scoreLabel.number)
+        if highScoreLabel.number < scoreLabel.number {
+            highScoreLabel.setTo(scoreLabel.number)
             
             let defaults = UserDefaults.standard
-            defaults.set(highscoreLabel.number, forKey: "highscore")
+            defaults.set(highScoreLabel.number, forKey: "highscore")
         }
     }
     
