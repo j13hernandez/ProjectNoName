@@ -12,7 +12,7 @@ import SpriteKit
 class PlatformGenerator: SKSpriteNode
 {    
     var platforms = [Platform]()
-    
+    /*
     var lowerRotationSpeed: CGFloat
     var upperRotationSpeed: CGFloat
     
@@ -21,7 +21,7 @@ class PlatformGenerator: SKSpriteNode
     
     var lowerDistanceApart: CGFloat
     var upperDistanceApart: CGFloat
-
+    */
     
     func calcNumOfPlatsPerScreen() -> Int
     {
