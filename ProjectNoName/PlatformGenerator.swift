@@ -10,9 +10,10 @@ import Foundation
 import SpriteKit
 
 class PlatformGenerator: SKSpriteNode
-{    
+{
     var platforms = [Platform]()
     
+    /*
     var lowerRotationSpeed: CGFloat
     var upperRotationSpeed: CGFloat
     
@@ -21,7 +22,7 @@ class PlatformGenerator: SKSpriteNode
     
     var lowerDistanceApart: CGFloat
     var upperDistanceApart: CGFloat
-
+    */
     
     func calcNumOfPlatsPerScreen() -> Int
     {
@@ -62,7 +63,8 @@ class PlatformGenerator: SKSpriteNode
         let platform = Platform()
         
         let w = UInt32(size.width)
-        let padding: UInt32 = UInt32(2 * ANCHOR_RADIUS) + 5// pixels on each side
+        let padding = UInt32(BORDER_PLATFORM_PADDING)
+        //let padding: UInt32 = UInt32(2 * ANCHOR_RADIUS) + 15// pixels on each side
         let randRange: UInt32 =  w - 2 * padding
         let rand = arc4random_uniform(randRange)
         
@@ -73,7 +75,7 @@ class PlatformGenerator: SKSpriteNode
         
         platforms.append(platform)
         addChild(platform)
-                
+        
         if movingLong
         {
             platform.startMovingLong()
@@ -86,7 +88,7 @@ class PlatformGenerator: SKSpriteNode
             {
                 bool = false
             }
-
+            
             platform.startMovingLat(toRight: bool)
         }
     }

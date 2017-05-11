@@ -129,11 +129,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate
             }
         }
         
+        /*
         if scoreLabel.number % 7 == 0
         {
+            platformGenerator.lowerRotationSpeed = 
+            platformGenerator.lowerLateralSpeed =
+            platformGenerator.lowerDistanceApart =
+            
+            platformGenerator.upperRotationSpeed =
+            platformGenerator.upperLateralSpeed =
+            platformGenerator.upperDistanceApart =
             
         }
-
+*/
     }
     
     func addPhysicsWorld()
