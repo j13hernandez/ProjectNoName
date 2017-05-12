@@ -30,28 +30,11 @@ class PlatformGenerator: SKSpriteNode
     
     func generateStartScreenPlatforms()
     {
-        
-
         generateNextPlatform(movingLong: false, movingLat: false, rotating: false)
         platforms[0].position.x = size.width / 2
+        
         generateNextPlatform(movingLong: false, movingLat: false, rotating: true)
         platforms[1].position.x = size.width / 2
-        
-        
-        /*
-        let platform1 = Platform()
-        platform1.position.x = size.width * 0.5
-        platform1.position.y = STARTING_DISTANCE_FROM_BOTTOM
-        platforms.append(platform1)
-        addChild(platform1)
-        
-        let platform2 = Platform()
-        platform2.position.x = size.width * 0.5
-        platform2.position.y = STARTING_DISTANCE_FROM_BOTTOM + PLATFORM_DISTANCE_APART
-        platform2.startRotation()
-        platforms.append(platform2)
-        addChild(platform2)
- */
         
         for _ in 0 ..< calcNumOfPlatsPerScreen() - 2
         {
@@ -108,6 +91,7 @@ class PlatformGenerator: SKSpriteNode
             platform.startRotation()
         }
         
+        /*
         print("New Platform:")
         print("\tRanges:")
         print("\t\tRotation: ", rotationSpeed.lower, " - " ,rotationSpeed.upper)
@@ -118,7 +102,7 @@ class PlatformGenerator: SKSpriteNode
         print("\t\tLateral: ", randLateralSpeed)
         print("\t\tDistanceApart: ", randDistanceApart)
         print("\n")
-        
+         */
     }
     
     func removeBottomPlatform()

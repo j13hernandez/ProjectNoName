@@ -284,6 +284,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         
         let defaults = UserDefaults.standard
         let oldHighScore = defaults.integer(forKey: "highscore")
+        
         if oldHighScore < highScoreLabel.number
         {
             defaults.set(highScoreLabel.number, forKey: "highscore")

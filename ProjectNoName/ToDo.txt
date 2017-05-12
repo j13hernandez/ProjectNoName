@@ -1,9 +1,8 @@
-Feel free to add anything to the list
--give random:
-    platform rotation - lower and upper
-    platform lateral speed - upper
-    platform distance apart - lower and upper
--update score real time
--pause button?
--music?
+
+-fix glitch where ball goes through platform on double tap
+-add ads
+-menu popup with link to gamecenter, link to buy app, and restart/resume button
+-pause button that brings up menu
+-music
+-mute button
 -make it look fancier?
