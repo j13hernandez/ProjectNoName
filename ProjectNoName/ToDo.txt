@@ -1,8 +1,7 @@
-
--fix glitch where ball goes through platform on double tap
 -add ads
 -menu popup with link to gamecenter, link to buy app, and restart/resume button
 -pause button that brings up menu
 -music
 -mute button
--make it look fancier?
+-change graphics
+-app icon

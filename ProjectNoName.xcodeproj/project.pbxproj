@@ -59,6 +59,7 @@
 		0E68C34A1E0382AA00C3CD4C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8B626BC41EC0425D00590072 /* platform3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = platform3.png; sourceTree = "<group>"; };
 		8BB98F691EC26D9000F86FE1 /* ConstantsAndStructs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConstantsAndStructs.swift; sourceTree = "<group>"; };
+		8BB98F6C1EC5748D00F86FE1 /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
 		8BF0288C1EBC1643009AEE9F /* platform2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = platform2.png; sourceTree = "<group>"; };
 		8BF0288F1EBD3238009AEE9F /* Platform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Platform.swift; sourceTree = "<group>"; };
 		8BF028911EBD325A009AEE9F /* PlatformGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlatformGenerator.swift; sourceTree = "<group>"; };
@@ -99,6 +100,7 @@
 				0E68C33C1E0382A900C3CD4C /* ProjectNoNameTests */,
 				0E68C3471E0382AA00C3CD4C /* ProjectNoNameUITests */,
 				0E68C3201E0382A900C3CD4C /* Products */,
+				8BB98F6B1EC5748D00F86FE1 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -147,6 +149,14 @@
 				0E68C34A1E0382AA00C3CD4C /* Info.plist */,
 			);
 			path = ProjectNoNameUITests;
+			sourceTree = "<group>";
+		};
+		8BB98F6B1EC5748D00F86FE1 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				8BB98F6C1EC5748D00F86FE1 /* iAd.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		8BF0288B1EBC1604009AEE9F /* images */ = {

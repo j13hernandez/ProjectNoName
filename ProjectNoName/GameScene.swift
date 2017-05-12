@@ -26,7 +26,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     override func didMove(to view: SKView)
     {
         backgroundColor = SKColor.lightGray
-        
+
         addPhysicsWorld()
         addBorder()
         addPlatformGenerator()
@@ -49,7 +49,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         {
             return
         }
-        
+
         scene?.physicsWorld.remove(joint)
         
         // Calculate vector components x and y
@@ -63,10 +63,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         
         let dir = CGVector(dx: dx * BALL_SPEED, dy: dy * BALL_SPEED)
         
+        ball.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
         ball.physicsBody?.applyImpulse(dir)
         
         currentPlatform = nil
-        
     }
     
     //contact between two PhysicsBodys occurred
