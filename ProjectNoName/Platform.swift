@@ -14,14 +14,21 @@ class Platform: SKSpriteNode {
     var moveRight: SKAction!
     var moveLeft: SKAction!
     
-    init()
+    var rotationSpeed: CGFloat = 0
+    var lateralSpeed: CGFloat = 0
+    
+    init(newRotationSpeed: CGFloat, newLateralSpeed: CGFloat)
     {
         let texture = SKTexture(imageNamed: "platform1")
         super.init(texture: texture, color: UIColor.clear, size: texture.size())
         
+        rotationSpeed = newRotationSpeed
+        lateralSpeed = newLateralSpeed
+        
         let rad: CGFloat = texture.size().width/2
         loadPhysicsBodyWithRad(rad)
-        loadLateralMoveActions()
+        //moveRight = SKAction.moveBy(x: PLATFORM_LATERAL_SPEED, y: 0, duration: 1)
+        //moveLeft = SKAction.moveBy(x: -PLATFORM_LATERAL_SPEED, y:0, duration: 1)
         self.setScale(CGFloat(0.183))
     }
     
@@ -40,11 +47,11 @@ class Platform: SKSpriteNode {
     {
         if arc4random_uniform(2) == 0
         {
-            run(SKAction.repeatForever(SKAction.rotate(byAngle: PLATFORM_ROTATION_SPEED, duration: 1)))
+            run(SKAction.repeatForever(SKAction.rotate(byAngle: rotationSpeed, duration: 1)))
         }
         else
         {
-            run(SKAction.repeatForever(SKAction.rotate(byAngle: -PLATFORM_ROTATION_SPEED, duration: 1)))
+            run(SKAction.repeatForever(SKAction.rotate(byAngle: -rotationSpeed, duration: 1)))
         }
     }
     
@@ -58,22 +65,17 @@ class Platform: SKSpriteNode {
         if toRight
         {
             removeAction(forKey: "moveLeft")
+            moveRight = SKAction.moveBy(x: lateralSpeed, y: 0, duration: 1)
             run(SKAction.repeatForever(moveRight), withKey: "moveRight")
             isMovingRight = true
         }
         else
         {
             removeAction(forKey: "moveRight")
+            moveLeft = SKAction.moveBy(x: -lateralSpeed, y: 0, duration: 1)
             run(SKAction.repeatForever(moveLeft), withKey: "moveLeft")
             isMovingRight = false
         }
-    }
-    
-    func loadLateralMoveActions()
-    {
-        moveRight = SKAction.moveBy(x: PLATFORM_LATERAL_SPEED, y: 0, duration: 1)
-        
-        moveLeft = SKAction.moveBy(x: -PLATFORM_LATERAL_SPEED, y:0, duration: 1)
     }
     
     func stopActions() {

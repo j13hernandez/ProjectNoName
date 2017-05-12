@@ -14,7 +14,10 @@ class ScoreLabel: SKLabelNode {
     
     var number = 0
     
-    init(num: Int) {
+    var scoreChanged = false
+    
+    init(num: Int)
+    {
         super.init()
         
         fontColor = UIColor.black

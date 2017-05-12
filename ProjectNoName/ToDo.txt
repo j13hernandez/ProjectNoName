@@ -1,8 +1,9 @@
 Feel free to add anything to the list
-
--give platforms arbitrary spin and lateral movement speeds
-    platform rotation
-    platform lateral speed
+-give random:
+    platform rotation - lower and upper
+    platform lateral speed - upper
+    platform distance apart - lower and upper
+-update score real time
 -pause button?
 -music?
 -make it look fancier?

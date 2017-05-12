@@ -98,8 +98,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate
                 
                 joinPhysicsBodies(bodyA: contact.bodyA, bodyB: contact.bodyB, point:anchor)
                 currentPlatform = contact.bodyA.node
-                let scoreLabel = childNode(withName: "scoreLabel") as! ScoreLabel
+                
                 scoreLabel.increment()
+                scoreLabel.scoreChanged = true
+                
+                if highScoreLabel.number < scoreLabel.number
+                {
+                    highScoreLabel.setTo(scoreLabel.number)
+                }
+                
             }
         }
     }
@@ -112,36 +119,33 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         if (bottomPlatform?.position.y)! + ANCHOR_RADIUS < 0
         {
             platformGenerator.removeBottomPlatform()
-            platformGenerator.generateNextPlatform(movingLong: true, movingLat: true)
+            platformGenerator.generateNextPlatform(movingLong: true, movingLat: true, rotating: true)
         }
         
         //send plat other direction
         for platform in platformGenerator.platforms
         {
-            if platform.position.x < BORDER_PLATFORM_PADDING && platform.isMovingRight == false
+            if platform.position.x < PLATFORM_TURN_POINT && platform.isMovingRight == false
             {
                 platform.startMovingLat(toRight: true)
             }
             
-            if platform.position.x > size.width - BORDER_PLATFORM_PADDING && platform.isMovingRight == true
+            if platform.position.x > size.width - PLATFORM_TURN_POINT &&
+                platform.isMovingRight == true
             {
                 platform.startMovingLat(toRight: false)
             }
         }
         
-        /*
-        if scoreLabel.number % 7 == 0
+        //runs every time score increases
+        if scoreLabel.scoreChanged == true && scoreLabel.number < 80
         {
-            platformGenerator.lowerRotationSpeed = 
-            platformGenerator.lowerLateralSpeed =
-            platformGenerator.lowerDistanceApart =
+            platformGenerator.rotationSpeed = platformGenerator.calcNewRotationSpeed(score: scoreLabel.number)
+            platformGenerator.lateralSpeed = platformGenerator.calcNewLateralSpeed(score: scoreLabel.number)
+            platformGenerator.distanceApart = platformGenerator.calcNewDistanceApart(score: scoreLabel.number)
             
-            platformGenerator.upperRotationSpeed =
-            platformGenerator.upperLateralSpeed =
-            platformGenerator.upperDistanceApart =
-            
+            scoreLabel.scoreChanged = false;
         }
-*/
     }
     
     func addPhysicsWorld()
@@ -278,10 +282,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         addChild(gameOverLabel)
         gameOverLabel.run(blinkAnimation())
         
-        if highScoreLabel.number < scoreLabel.number {
-            highScoreLabel.setTo(scoreLabel.number)
-            
-            let defaults = UserDefaults.standard
+        let defaults = UserDefaults.standard
+        let oldHighScore = defaults.integer(forKey: "highscore")
+        if oldHighScore < highScoreLabel.number
+        {
             defaults.set(highScoreLabel.number, forKey: "highscore")
         }
     }
